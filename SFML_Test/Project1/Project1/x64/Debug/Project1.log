@@ -1,0 +1,3 @@
+﻿  Source.cpp
+c:\users\alex\documents\project_swe\sfml_test\project1\project1\source.cpp(13): warning C4305: 'argument': truncation from 'double' to 'float'
+sfml-graphics-s-d.lib(RenderStates.cpp.obj) : fatal error LNK1112: module machine type 'x86' conflicts with target machine type 'x64'
