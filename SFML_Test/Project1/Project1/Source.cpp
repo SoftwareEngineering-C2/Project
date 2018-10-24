@@ -3,16 +3,20 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1600, 1200), "SFML works!"); // 1024, 768
+	sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!"); // 1024, 768
 	int renderStart_x = window.getSize().x / 8;
 	int renderEnd_x = window.getSize().x - renderStart_x;
 	int tick = 0;
 	// Spielfigur
 	sf::Texture myTexture;
 	myTexture.loadFromFile("..\\Ressources\\img\\testpng.png");
-	sf::Sprite mySprite;
+	sf::Sprite mySprite, mySpriteShadow;
 	mySprite.setTexture(myTexture);
 	mySprite.setScale(0.2f, 0.2f);
+	mySpriteShadow.setTexture(myTexture);
+	mySpriteShadow.setScale(0.2f, 0.2f);
+	mySpriteShadow.setColor(sf::Color::Black);
+	mySprite.setPosition(renderEnd_x - 3 * renderStart_x, window.getSize().y - mySprite.getGlobalBounds().height);
 	//Hintergründe
 	// Gleichen Hintergrund zwei mal initialisieren und hintereinander durchscrollen
 	// Positionen zurücksetzen (hinten anstellen), wenn sie zu weit aus dem Bild laufen
@@ -49,7 +53,7 @@ int main()
 		/*Hintergründe durchscrollen*/
 		if (myBackGround.getPosition().y > window.getSize().y) myBackGround.setPosition(myBackGround.getPosition().x, -myBackGround.getGlobalBounds().height);
 		if (myBackGround2.getPosition().y > window.getSize().y) myBackGround2.setPosition(myBackGround2.getPosition().x, -myBackGround.getGlobalBounds().height);
-		if (tick % 15 == 0)
+		if (tick % 3 == 0)
 		{
 			if (GetAsyncKeyState('W') && 0x8000) //|| GetAsyncKeyState(VK_LEFT)) && 0x8000)
 			{
@@ -72,13 +76,15 @@ int main()
 				mySprite.setPosition(mySprite.getPosition().x, mySprite.getPosition().y + 1);
 			}
 		}
-		if (tick % 15 == 0)
+		mySpriteShadow.setPosition(mySprite.getPosition().x + 7, mySprite.getPosition().y + 7);
+		if (tick % 10 == 0)
 		{
 			myBackGround.setPosition(myBackGround.getPosition().x, myBackGround.getPosition().y + 1);
 			myBackGround2.setPosition(myBackGround2.getPosition().x, myBackGround2.getPosition().y + 1);
 		}
 		window.draw(myBackGround);
 		window.draw(myBackGround2);
+		window.draw(mySpriteShadow);
 		window.draw(mySprite);
 		window.display();
 		tick++;
