@@ -1,16 +1,22 @@
 #pragma once
 #include "SFML/graphics.hpp"
 
+class Player;
+
 class Game
 {
 private:
-	std::vector <sf::Sprite> stackOfSprites;
-	std::vector<std::pair<std::string, sf::Sprite>> gameSprites;
+	Player* p = nullptr;
+	std::vector < std::pair < std::string, sf::Sprite* >> stackOfSprites;
+	std::vector<std::pair<std::string, sf::Sprite*>> gameSprites;
 public:
 	Game();
+	Game(Player*, sf::Texture &);
 	// Handle Events
 	void HandleEvents(sf::RenderWindow& window);
 
-	void LoadSpriteIntoStack(std::string, sf::Sprite);
+	void loadSpriteIntoStack(std::string, sf::Sprite*);
 	void DrawStackOfSprites(sf::RenderWindow& window);
+	sf::Sprite *getSpritePtr(std::string);
+	void updatePlayer();
 };

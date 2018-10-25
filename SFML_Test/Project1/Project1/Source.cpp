@@ -6,18 +6,20 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1600, 1200), "SFML works!"); // 1024, 768
+	sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!"); // 1024, 768
 	float boundsLeft = window.getSize().x / 8.f;
 	float boundsRight = window.getSize().x - boundsLeft;
 	int tick = 0;
-	Game* game = new Game();
 	//sf::Texture texture;
 	sf::Texture myTexture;
 	Player* player = new Player();
-	game->LoadSpriteIntoStack(player->initPlayer(myTexture));
+	//player->initPlayer(myTexture);
+	Game* game = new Game(player, myTexture);
+	//game->loadSpriteIntoStack("Player", player->initPlayer(myTexture));
 
 	PlayerController* controller = new PlayerController(player, boundsLeft, boundsRight, window.getSize().x, window.getSize().y);
 
+	//controller->playerSetup(player, window.getSize().y - player->getHeight());
 	// Position Spieler 
 	//Hintergründe
 	// Gleichen Hintergrund zwei mal initialisieren und hintereinander durchscrollen
@@ -52,6 +54,7 @@ int main()
 				window.close();
 		}
 		controller->onKeyPress(window.getSize().y);
+		game->updatePlayer();
 		window.clear(sf::Color::Black);
 		/*Hintergründe durchscrollen*/
 		if (myBackGround.getPosition().y > window.getSize().y) myBackGround.setPosition(myBackGround.getPosition().x, -myBackGround.getGlobalBounds().height);

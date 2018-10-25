@@ -1,7 +1,7 @@
 #include "PlayerController.h"
 #include <Windows.h>
 
-PlayerController::PlayerController(Player* player, float boundsLeft, float boundsRight, int windowSize_x, int windowSize_y)
+PlayerController::PlayerController(Player* &player, float boundsLeft, float boundsRight, int windowSize_x, int windowSize_y)
 {
 	{
 		this->player = player;
@@ -23,18 +23,23 @@ void PlayerController::onKeyPress(int windowBounds_y)
 	{
 		// nach rechts bewegen
 		if (this->player->getPosition_x() + this->player->getWidth() < boundsRight)
-			this->player->moveLeft();
+			this->player->moveRight();
 	}
 	if (GetAsyncKeyState('W') && 0x8000) //|| GetAsyncKeyState(VK_LEFT)) && 0x8000)
 	{
 		// nach oben bewegen
 		if (this->player->getPosition_y() > 0)
-			this->player->moveLeft();
+			this->player->moveUp();
 	}
 	if (GetAsyncKeyState('S') && 0x8000) //|| GetAsyncKeyState(VK_LEFT)) && 0x8000)
 	{
 		// nach unten bewegen
 		if (this->player->getPosition_y() + this->player->getHeight() < windowBounds_y)
-			this->player->moveLeft();
+			this->player->moveDown();
 	}
 }
+
+//void PlayerController::playerSetup(Player* p,float windowSize_y)
+//{
+//	p->setPosition(3 * boundsLeft, windowSize_y - this->player->getHeight());
+//}
