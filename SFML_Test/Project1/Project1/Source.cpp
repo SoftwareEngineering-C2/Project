@@ -18,7 +18,6 @@ int main()
 	//game->loadSpriteIntoStack("Player", player->initPlayer(myTexture));
 
 	PlayerController* controller = new PlayerController(player, boundsLeft, boundsRight, window.getSize().x, window.getSize().y);
-
 	//controller->playerSetup(player, window.getSize().y - player->getHeight());
 	// Position Spieler 
 	//Hintergründe
@@ -55,7 +54,7 @@ int main()
 		}
 		controller->onKeyPress(window.getSize().y);
 		game->updatePlayer();
-		window.clear(sf::Color::Black);
+		//window.clear(sf::Color::Black);
 		/*Hintergründe durchscrollen*/
 		if (myBackGround.getPosition().y > window.getSize().y) myBackGround.setPosition(myBackGround.getPosition().x, -myBackGround.getGlobalBounds().height);
 		if (myBackGround2.getPosition().y > window.getSize().y) myBackGround2.setPosition(myBackGround2.getPosition().x, -myBackGround.getGlobalBounds().height);
@@ -67,8 +66,6 @@ int main()
 		}
 		window.draw(myBackGround);
 		window.draw(myBackGround2);
-		//window.draw(mySpriteShadow);
-		//window.draw(player->getSprite());
 		game->DrawStackOfSprites(window);
 		window.display();
 		tick++;

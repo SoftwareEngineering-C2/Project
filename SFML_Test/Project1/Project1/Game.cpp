@@ -8,38 +8,58 @@ Game::Game()
 Game::Game(Player* p, sf::Texture &texture)
 {
 	this->p = p;
-	sf::Sprite* playerSprite = p->initPlayer(texture);
-	this->loadSpriteIntoStack("Player", playerSprite);
-	this->p->setHeight(playerSprite->getGlobalBounds().height);
-	this->p->setWidth(playerSprite->getGlobalBounds().width);
+	p->initPlayer(texture);
+	this->loadSpriteIntoStack("Player", p->getAnimatedSprite());
 }
 
-void Game::loadSpriteIntoStack(std::string name, sf::Sprite *sprite)
+void Game::loadSpriteIntoStack(std::string name, AnimatedSprite* sprite)
 {
-	std::pair <std::string, sf::Sprite*> pair;
+	std::pair <std::string, AnimatedSprite*> pair;
 	pair.first = name;
 	pair.second = sprite;
-	stackOfSprites.push_back(pair);
+	if (stackOfSprites.empty())
+	{
+		stackOfSprites.push_back(pair);
+		return;
+	}
+	for (int i = 0; i < stackOfSprites.size(); i++)
+	{
+		if (stackOfSprites[i].first == "Player")
+		{
+			stackOfSprites[i].second = pair.second;
+			return;
+		}
+	}
 }
 
 void Game::DrawStackOfSprites(sf::RenderWindow& window)
 {
 	for (unsigned int i = 0; i < stackOfSprites.size(); i++)
 	{
-		window.draw(*stackOfSprites[i].second);
+		AnimatedSprite* sprite = stackOfSprites[i].second;
+		window.draw(*sprite);
 	}
 }
 
-sf::Sprite* Game::getSpritePtr(std::string id)
+AnimatedSprite* Game::getSpritePtr(std::string id)
 {
 	for (unsigned int i = 0; i < stackOfSprites.size(); i++)
 	{
 		if (stackOfSprites[i].first == id)
-		return stackOfSprites[i].second;
+			return stackOfSprites[i].second;
 	}
 }
 void Game::updatePlayer()
 {
-	sf::Sprite* player = getSpritePtr("Player");
-	player->setPosition(this->p->getPosition_x(), this->p->getPosition_y());
+	//AnimatedSprite* player = getSpritePtr("Player");
+	for (unsigned int i = 0; i < stackOfSprites.size(); i++)
+	{
+		if (stackOfSprites[i].first == "Player")
+		{
+			stackOfSprites[i].second->play(*p->getCurrentAnimation());
+			stackOfSprites[i].second->setPosition(sf::Vector2f(p->getPosition_x(), p->getPosition_y()));
+			stackOfSprites[i].second->update(sf::seconds(0.2));
+
+		}
+	}
 }

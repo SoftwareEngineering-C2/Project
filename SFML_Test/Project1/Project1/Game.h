@@ -1,5 +1,6 @@
 #pragma once
 #include "SFML/graphics.hpp"
+#include "AnimatedSprite.h"
 
 class Player;
 
@@ -7,16 +8,18 @@ class Game
 {
 private:
 	Player* p = nullptr;
-	std::vector < std::pair < std::string, sf::Sprite* >> stackOfSprites;
-	std::vector<std::pair<std::string, sf::Sprite*>> gameSprites;
+	sf::Time gameTime;
+	sf::Clock gameClock;
+	std::vector < std::pair < std::string, AnimatedSprite* >> stackOfSprites;
+	std::vector<std::pair<std::string, AnimatedSprite*>> gameSprites;
 public:
 	Game();
 	Game(Player*, sf::Texture &);
 	// Handle Events
 	void HandleEvents(sf::RenderWindow& window);
 
-	void loadSpriteIntoStack(std::string, sf::Sprite*);
+	void loadSpriteIntoStack(std::string, AnimatedSprite*);
 	void DrawStackOfSprites(sf::RenderWindow& window);
-	sf::Sprite *getSpritePtr(std::string);
+	AnimatedSprite* getSpritePtr(std::string);
 	void updatePlayer();
 };

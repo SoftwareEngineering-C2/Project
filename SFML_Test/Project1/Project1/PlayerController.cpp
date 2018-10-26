@@ -17,25 +17,37 @@ void PlayerController::onKeyPress(int windowBounds_y)
 	{
 		// nach links bewegen
 		if (this->player->getPosition_x() > boundsLeft)
+		{
+			this->player->setPlayerAnimation('L');
 			this->player->moveLeft();
+		}
 	}
 	if (GetAsyncKeyState('D') && 0x8000) //|| GetAsyncKeyState(VK_RIGHT)) && 0x8000)
 	{
 		// nach rechts bewegen
 		if (this->player->getPosition_x() + this->player->getWidth() < boundsRight)
+		{
+			this->player->setPlayerAnimation('R');
 			this->player->moveRight();
+		}
 	}
 	if (GetAsyncKeyState('W') && 0x8000) //|| GetAsyncKeyState(VK_LEFT)) && 0x8000)
 	{
 		// nach oben bewegen
 		if (this->player->getPosition_y() > 0)
+		{
+			this->player->setPlayerAnimation('U');
 			this->player->moveUp();
+		}
 	}
 	if (GetAsyncKeyState('S') && 0x8000) //|| GetAsyncKeyState(VK_LEFT)) && 0x8000)
 	{
 		// nach unten bewegen
 		if (this->player->getPosition_y() + this->player->getHeight() < windowBounds_y)
+		{
+			this->player->setPlayerAnimation('D');
 			this->player->moveDown();
+		}
 	}
 }
 

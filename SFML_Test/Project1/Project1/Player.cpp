@@ -4,19 +4,47 @@ Player::Player()
 {
 	this->x = 0;
 	this->y = 0;
+	this->animatedSprite = new AnimatedSprite(sf::seconds(0.2f), false, true);
 }
 
-sf::Sprite* Player::initPlayer(sf::Texture& texture)
+void Player::initPlayer(sf::Texture& texture)
 {
-	texture.loadFromFile("..\\Ressources\\img\\spriteSet.png", sf::IntRect(0, 0, 150, 200));
-	sf::Sprite* playerSprite = new sf::Sprite();
-	playerSprite->setTexture(texture);
-	playerSprite->setScale(0.4f, 0.4f);
+	texture.loadFromFile("..\\Ressources\\img\\playerSpriteSet.png");
+
+	// set up the animations for all four directions (set spritesheet and push frames)
+	this->walkingDown.setSheet(texture);
+	this->walkingDown.addState(sf::IntRect(32, 0, 32, 32));
+	this->walkingDown.addState(sf::IntRect(64, 0, 32, 32));
+	this->walkingDown.addState(sf::IntRect(32, 0, 32, 32));
+	this->walkingDown.addState(sf::IntRect(0, 0, 32, 32));
+
+	this->walkingLeft.setSheet(texture);
+	this->walkingLeft.addState(sf::IntRect(32, 32, 32, 32));
+	this->walkingLeft.addState(sf::IntRect(64, 32, 32, 32));
+	this->walkingLeft.addState(sf::IntRect(32, 32, 32, 32));
+	this->walkingLeft.addState(sf::IntRect(0, 32, 32, 32));
+
+	this->walkingRight.setSheet(texture);
+	this->walkingRight.addState(sf::IntRect(32, 64, 32, 32));
+	this->walkingRight.addState(sf::IntRect(64, 64, 32, 32));
+	this->walkingRight.addState(sf::IntRect(32, 64, 32, 32));
+	this->walkingRight.addState(sf::IntRect(0, 64, 32, 32));
+
+	this->walkingUp.setSheet(texture);
+	this->walkingUp.addState(sf::IntRect(32, 96, 32, 32));
+	this->walkingUp.addState(sf::IntRect(64, 96, 32, 32));
+	this->walkingUp.addState(sf::IntRect(32, 96, 32, 32));
+	this->walkingUp.addState(sf::IntRect(0, 96, 32, 32));
+
+	this->currentAnimation = &this->walkingDown;
+	// set up AnimatedSprite
+	this->setWidth(32);
+	this->setHeight(32);
 	// Schatten (?)
 	//this->playerShadow.setTexture(myTexture);
 	//this->playerShadow.setScale(0.4f, 0.4f);
 	//this->playerShadow.setColor(sf::Color::Black);
-	return playerSprite;
+	return;
 }
 void Player::moveLeft()
 {
@@ -40,6 +68,37 @@ void Player::moveDown()
 {
 	//	this->playerSprite.setPosition(this->playerSprite.getPosition().x, this->playerSprite.getPosition().y + 1);
 	this->y += 1;
+}
+
+Animation * Player::getCurrentAnimation()
+{
+	return this->currentAnimation;
+}
+
+AnimatedSprite * Player::getAnimatedSprite()
+{
+	return this->animatedSprite;
+}
+
+void Player::setPlayerAnimation(char id)
+{
+	switch (id)
+	{
+	case 'L':
+		this->currentAnimation = &this->walkingLeft;
+		break;
+	case 'R':
+		this->currentAnimation = &this->walkingRight;
+		break;
+	case 'U':
+		this->currentAnimation = &this->walkingUp;
+		break;
+	case 'D':
+		this->currentAnimation = &this->walkingDown;
+		break;
+	default:
+		break;
+	}
 }
 
 float Player::getPosition_x()
