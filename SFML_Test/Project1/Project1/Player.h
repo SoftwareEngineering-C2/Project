@@ -11,6 +11,7 @@ private:
 	float y;
 	float height;
 	float width;
+	Animation idle;
 	Animation walkingDown;
 	Animation walkingUp;
 	Animation walkingLeft;

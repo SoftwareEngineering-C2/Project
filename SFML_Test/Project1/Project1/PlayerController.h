@@ -10,6 +10,6 @@ private:
 	float boundsRight;
 public:
 	PlayerController(Player* &player, float boundsLeft, float boundsRight, int windowSize_x, int windowSize_y);
-	void onKeyPress(int);
+	bool onKeyPress(int);
 	void playerSetup(Player*,float);
 };

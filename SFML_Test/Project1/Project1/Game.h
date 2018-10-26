@@ -8,8 +8,8 @@ class Game
 {
 private:
 	Player* p = nullptr;
-	sf::Time gameTime;
-	sf::Clock gameClock;
+	sf::Clock frameClock;
+	sf::Time frameTime;
 	std::vector < std::pair < std::string, AnimatedSprite* >> stackOfSprites;
 	std::vector<std::pair<std::string, AnimatedSprite*>> gameSprites;
 public:
@@ -21,5 +21,5 @@ public:
 	void loadSpriteIntoStack(std::string, AnimatedSprite*);
 	void DrawStackOfSprites(sf::RenderWindow& window);
 	AnimatedSprite* getSpritePtr(std::string);
-	void updatePlayer();
+	void updatePlayer(bool);
 };

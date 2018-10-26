@@ -11,8 +11,9 @@ PlayerController::PlayerController(Player* &player, float boundsLeft, float boun
 	}
 }
 
-void PlayerController::onKeyPress(int windowBounds_y)
+bool PlayerController::onKeyPress(int windowBounds_y)
 {
+	bool idle = true;
 	if (GetAsyncKeyState('A') && 0x8000) //|| GetAsyncKeyState(VK_LEFT)) && 0x8000)
 	{
 		// nach links bewegen
@@ -20,6 +21,7 @@ void PlayerController::onKeyPress(int windowBounds_y)
 		{
 			this->player->setPlayerAnimation('L');
 			this->player->moveLeft();
+			idle = false;
 		}
 	}
 	if (GetAsyncKeyState('D') && 0x8000) //|| GetAsyncKeyState(VK_RIGHT)) && 0x8000)
@@ -29,6 +31,7 @@ void PlayerController::onKeyPress(int windowBounds_y)
 		{
 			this->player->setPlayerAnimation('R');
 			this->player->moveRight();
+			idle = false;
 		}
 	}
 	if (GetAsyncKeyState('W') && 0x8000) //|| GetAsyncKeyState(VK_LEFT)) && 0x8000)
@@ -38,6 +41,7 @@ void PlayerController::onKeyPress(int windowBounds_y)
 		{
 			this->player->setPlayerAnimation('U');
 			this->player->moveUp();
+			idle = false;
 		}
 	}
 	if (GetAsyncKeyState('S') && 0x8000) //|| GetAsyncKeyState(VK_LEFT)) && 0x8000)
@@ -47,8 +51,14 @@ void PlayerController::onKeyPress(int windowBounds_y)
 		{
 			this->player->setPlayerAnimation('D');
 			this->player->moveDown();
+			idle = false;
 		}
 	}
+	//if (idle)
+	//{
+	//	this->player->getCurrentAnimation();
+	//}
+	return !idle;
 }
 
 //void PlayerController::playerSetup(Player* p,float windowSize_y)

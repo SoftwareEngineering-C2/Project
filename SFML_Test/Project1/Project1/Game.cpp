@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Game.h"
+#include <iostream>
 
 Game::Game()
 {
@@ -10,6 +11,7 @@ Game::Game(Player* p, sf::Texture &texture)
 	this->p = p;
 	p->initPlayer(texture);
 	this->loadSpriteIntoStack("Player", p->getAnimatedSprite());
+	this->frameTime = this->frameClock.restart();
 }
 
 void Game::loadSpriteIntoStack(std::string name, AnimatedSprite* sprite)
@@ -49,17 +51,22 @@ AnimatedSprite* Game::getSpritePtr(std::string id)
 			return stackOfSprites[i].second;
 	}
 }
-void Game::updatePlayer()
+void Game::updatePlayer(bool keyPressed)
 {
 	//AnimatedSprite* player = getSpritePtr("Player");
+	this->frameTime = this->frameClock.restart();
 	for (unsigned int i = 0; i < stackOfSprites.size(); i++)
 	{
 		if (stackOfSprites[i].first == "Player")
 		{
-			stackOfSprites[i].second->play(*p->getCurrentAnimation());
-			stackOfSprites[i].second->setPosition(sf::Vector2f(p->getPosition_x(), p->getPosition_y()));
-			stackOfSprites[i].second->update(sf::seconds(0.2));
-
+			if (keyPressed)
+				stackOfSprites[i].second->play(*p->getCurrentAnimation(), 0);
+			else
+			{
+				stackOfSprites[i].second->stop();
+			}
+			stackOfSprites[i].second->setPosition(p->getPosition_x(),p->getPosition_y());
+			stackOfSprites[i].second->update(frameTime);
 		}
 	}
 }

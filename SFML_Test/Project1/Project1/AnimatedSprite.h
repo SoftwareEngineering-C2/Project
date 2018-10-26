@@ -20,13 +20,13 @@ private:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 public:
-	explicit AnimatedSprite(sf::Time stateTime = sf::seconds(0.2f), bool paused = false, bool looped = true);
+	explicit AnimatedSprite(sf::Time stateTime = sf::seconds(0.1f), bool paused = false, bool looped = true);
 
 	void update(sf::Time deltaTime);
-	void setAnimation(Animation& animation);
+	void setAnimation(Animation& animation, bool reset);
 	void setFrameTime(sf::Time time);
 	void play();
-	void play(Animation& animation);
+	void play(Animation& animation, bool);
 	void pause();
 	void stop();
 	void setLooped(bool looped);

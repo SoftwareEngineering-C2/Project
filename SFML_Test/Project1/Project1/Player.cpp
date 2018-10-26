@@ -4,7 +4,8 @@ Player::Player()
 {
 	this->x = 0;
 	this->y = 0;
-	this->animatedSprite = new AnimatedSprite(sf::seconds(0.2f), false, true);
+	this->animatedSprite = new AnimatedSprite(sf::seconds(0.1f), true, false);
+	this->animatedSprite->setScale(1.4, 1.4);
 }
 
 void Player::initPlayer(sf::Texture& texture)
@@ -12,6 +13,9 @@ void Player::initPlayer(sf::Texture& texture)
 	texture.loadFromFile("..\\Ressources\\img\\playerSpriteSet.png");
 
 	// set up the animations for all four directions (set spritesheet and push frames)
+	this->idle.setSheet(texture);
+	this->idle.addState(sf::IntRect(32, 0, 32, 32));
+
 	this->walkingDown.setSheet(texture);
 	this->walkingDown.addState(sf::IntRect(32, 0, 32, 32));
 	this->walkingDown.addState(sf::IntRect(64, 0, 32, 32));
@@ -36,10 +40,11 @@ void Player::initPlayer(sf::Texture& texture)
 	this->walkingUp.addState(sf::IntRect(32, 96, 32, 32));
 	this->walkingUp.addState(sf::IntRect(0, 96, 32, 32));
 
-	this->currentAnimation = &this->walkingDown;
+	this->currentAnimation = &this->idle;
+	this->animatedSprite->setAnimation(this->idle, 1);
 	// set up AnimatedSprite
-	this->setWidth(32);
-	this->setHeight(32);
+	this->setWidth(32 * this->animatedSprite->getScale().x);
+	this->setHeight(32 * this->animatedSprite->getScale().y);
 	// Schatten (?)
 	//this->playerShadow.setTexture(myTexture);
 	//this->playerShadow.setScale(0.4f, 0.4f);
@@ -95,6 +100,9 @@ void Player::setPlayerAnimation(char id)
 		break;
 	case 'D':
 		this->currentAnimation = &this->walkingDown;
+		break;
+	case 'I':
+		this->currentAnimation = &this->idle;
 		break;
 	default:
 		break;

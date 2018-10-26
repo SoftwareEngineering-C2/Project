@@ -6,12 +6,13 @@ AnimatedSprite::AnimatedSprite(sf::Time frameTime, bool paused, bool looped) :
 	this->looped = looped;
 }
 
-void AnimatedSprite::setAnimation(Animation& animation)
+void AnimatedSprite::setAnimation(Animation& animation, bool reset)
 {
 	this->animation = &animation;
 	texture = this->animation->getSheet();
-	currentState = 0;
-	setFrame(currentState);
+	if (reset)
+		currentState = 0;
+	setFrame(currentState, 0);
 }
 
 void AnimatedSprite::setFrameTime(sf::Time time)
@@ -24,10 +25,9 @@ void AnimatedSprite::play()
 	isPaused = false;
 }
 
-void AnimatedSprite::play(Animation& animation)
+void AnimatedSprite::play(Animation& animation, bool reset)
 {
-	//if (getAnimation() != &animation)
-		setAnimation(animation);
+	setAnimation(animation, reset);
 	play();
 }
 
@@ -40,7 +40,7 @@ void AnimatedSprite::stop()
 {
 	isPaused = true;
 	currentState = 0;
-	setFrame(currentState);
+	setFrame(currentState, 1);
 }
 
 void AnimatedSprite::setLooped(bool looped)
